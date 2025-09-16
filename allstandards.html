@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShiksaVid - Student Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #166d67;
+            --accent: #fd7e14;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 20px;
+        }
+
+        .class-selection, .teacher-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .class-selection h2, .teacher-section h2, .resources h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .class-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .class-btn {
+            padding: 12px;
+            background-color: #e9ecef;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .class-btn:hover {
+            background-color: #dee2e6;
+        }
+
+        .class-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .subjects-container {
+            margin-top: 20px;
+        }
+
+        .subjects {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .subject-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .subject-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .subject-card h3 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .resources {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .resources-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .resource-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background-color: #e9ecef;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .resource-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .resource-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            gap: 15px;
+        }
+
+        .resource-item i {
+            font-size: 1.8rem;
+            color: var(--danger);
+        }
+
+        .video-resource i {
+            color: var(--danger);
+        }
+
+        .resource-info {
+            flex: 1;
+        }
+
+        .resource-info h4 {
+            margin-bottom: 5px;
+        }
+
+        .resource-info p {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #3a5985;
+        }
+
+        .teacher-section {
+            margin-top: 30px;
+            grid-column: 1 / -1;
+        }
+
+        .teacher-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .teacher-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .form-group select, .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .toggle-teacher {
+            background-color: var(--accent);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .placeholder {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+
+        .placeholder i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #adb5bd;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #6c757d;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .class-buttons {
+                grid-template-columns: repeat(5, 1fr);
+            }
+            
+            .subjects {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .teacher-form {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>ShiksaVid Dashboard</h1>
+                </div>
+                <div class="user">
+                    <i class="fas fa-user-circle"></i> Student Portal
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="class-selection">
+                <h2>Select Your Class</h2>
+                <div class="class-buttons">
+                    <button class="class-btn" data-class="6">Class 6</button>
+                    <button class="class-btn" data-class="7">Class 7</button>
+                    <button class="class-btn" data-class="8">Class 8</button>
+                    <button class="class-btn" data-class="9">Class 9</button>
+                    <button class="class-btn" data-class="10">Class 10</button>
+                </div>
+
+                <div class="subjects-container">
+                    <h2>Subjects</h2>
+                    <div class="subjects">
+                        <!-- Subjects will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="resources">
+                <div class="resources-header">
+                    <h2>Study Resources</h2>
+                    <div>
+                        <button class="btn toggle-teacher" id="teacher-toggle">
+                            <i class="fas fa-chalkboard-teacher"></i> Teacher Mode
+                        </button>
+                    </div>
+                </div>
+
+                <div class="resource-tabs">
+                    <button class="tab-btn active" data-tab="pdf">PDF Resources</button>
+                    <button class="tab-btn" data-tab="video">Video Lessons</button>
+                </div>
+
+                <div class="resource-list" id="resource-container">
+                    <div class="placeholder">
+                        <i class="fas fa-book-open"></i>
+                        <p>Select a class and subject to view resources</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="teacher-section hidden" id="teacher-section">
+                <h2><i class="fas fa-chalkboard-teacher"></i> Teacher Resource Upload</h2>
+                
+                <div class="teacher-controls">
+                    <p>Upload new study materials for your students</p>
+                    <button class="btn" id="logout-teacher">Logout</button>
+                </div>
+
+                <div class="teacher-form">
+                    <div class="form-group">
+                        <label for="teacher-class">Class</label>
+                        <select id="teacher-class">
+                            <option value="6">Class 6</option>
+                            <option value="7">Class 7</option>
+                            <option value="8">Class 8</option>
+                            <option value="9">Class 9</option>
+                            <option value="10">Class 10</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="teacher-subject">Subject</label>
+                        <select id="teacher-subject">
+                            <option value="math">Mathematics</option>
+                            <option value="science">Science</option>
+                            <option value="env-science">Environmental Science</option>
+                            <option value="physics">Physics</option>
+                            <option value="chemistry">Chemistry</option>
+                            <option value="biology">Biology</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="resource-title">Resource Title</label>
+                        <input type="text" id="resource-title" placeholder="Enter resource title">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resource-type">Resource Type</label>
+                        <select id="resource-type">
+                            <option value="pdf">PDF Document</option>
+                            <option value="video">Video Lesson</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resource-url">Resource URL</label>
+                        <input type="text" id="resource-url" placeholder="Enter resource URL">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <button class="btn" id="upload-resource">
+                            <i class="fas fa-upload"></i> Upload Resource
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>EduLearn Dashboard © 2023 | Offline/Online Learning Platform</p>
+        </footer>
+    </div>
+
+    <script>
+        // Sample data for resources
+        const resourcesData = {
+            "6": {
+                "math": {
+                    "pdf": [
+                        { title: "Mathematics Basics", url: "/resources/class6/math/basics.pdf" },
+                        { title: "Geometry Introduction", url: "/resources/class6/math/geometry.pdf" }
+                    ],
+                    "video": [
+                        { title: "Introduction to Algebra", url: "https://www.youtube.com/embed/abc123" },
+                        { title: "Understanding Fractions", url: "https://www.youtube.com/embed/def456" }
+                    ]
+                },
+                "science": {
+                    "pdf": [
+                        { title: "Science Fundamentals", url: "/resources/class6/science/fundamentals.pdf" }
+                    ],
+                    "video": [
+                        { title: "Human Body Systems", url: "https://www.youtube.com/embed/ghi789" }
+                    ]
+                }
+            },
+            "7": {
+                "math": {
+                    "pdf": [
+                        { title: "Algebra Basics", url: "/resources/class7/math/algebra.pdf" }
+                    ],
+                    "video": [
+                        { title: "Algebraic Expressions", url: "https://www.youtube.com/embed/jkl012" }
+                    ]
+                }
+            },
+            "8": {
+                "math": {
+                    "pdf": [
+                        { title: "Advanced Algebra", url: "/resources/class8/math/advanced-algebra.pdf" }
+                    ],
+                    "video": []
+                }
+            },
+            "9": {
+                "physics": {
+                    "pdf": [
+                        { title: "Motion and Laws", url: "/resources/class9/physics/motion.pdf" }
+                    ],
+                    "video": [
+                        { title: "Newton's Laws of Motion", url: "https://www.youtube.com/embed/mno345" }
+                    ]
+                }
+            },
+            "10": {
+                "chemistry": {
+                    "pdf": [
+                        { title: "Chemical Reactions", url: "/resources/class10/chemistry/reactions.pdf" }
+                    ],
+                    "video": [
+                        { title: "Types of Chemical Reactions", url: "https://www.youtube.com/embed/pqr678" }
+                    ]
+                }
+            }
+        };
+
+        // DOM elements
+        const classButtons = document.querySelectorAll('.class-btn');
+        const subjectsContainer = document.querySelector('.subjects');
+        const resourceContainer = document.getElementById('resource-container');
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const teacherSection = document.getElementById('teacher-section');
+        const teacherToggle = document.getElementById('teacher-toggle');
+        const logoutTeacher = document.getElementById('logout-teacher');
+        const uploadResource = document.getElementById('upload-resource');
+
+        // Current selection state
+        let currentClass = null;
+        let currentSubject = null;
+        let currentTab = 'pdf';
+        let teacherMode = false;
+
+        // Class subjects mapping
+        const classSubjects = {
+            "6": ["math", "science", "env-science"],
+            "7": ["math", "science", "env-science"],
+            "8": ["math", "science", "env-science"],
+            "9": ["physics", "chemistry", "biology", "math", "env-science"],
+            "10": ["physics", "chemistry", "biology", "math", "env-science"]
+        };
+
+        // Subject display names
+        const subjectNames = {
+            "math": "Mathematics",
+            "science": "Science",
+            "env-science": "Environmental Science",
+            "physics": "Physics",
+            "chemistry": "Chemistry",
+            "biology": "Biology"
+        };
+
+        // Subject icons
+        const subjectIcons = {
+            "math": "fas fa-calculator",
+            "science": "fas fa-flask",
+            "env-science": "fas fa-leaf",
+            "physics": "fas fa-atom",
+            "chemistry": "fas fa-vial",
+            "biology": "fas fa-dna"
+        };
+
+        // Initialize the dashboard
+        function init() {
+            // Add event listeners
+            classButtons.forEach(btn => {
+                btn.addEventListener('click', () => selectClass(btn.dataset.class));
+            });
+
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', () => selectTab(btn.dataset.tab));
+            });
+
+            teacherToggle.addEventListener('click', toggleTeacherMode);
+            logoutTeacher.addEventListener('click', toggleTeacherMode);
+            uploadResource.addEventListener('click', uploadNewResource);
+
+            // Load initial state from localStorage if available
+            const savedClass = localStorage.getItem('currentClass');
+            if (savedClass) {
+                selectClass(savedClass);
+            }
+        }
+
+        // Handle class selection
+        function selectClass(className) {
+            currentClass = className;
+            localStorage.setItem('currentClass', className);
+
+            // Update UI
+            classButtons.forEach(btn => {
+                if (btn.dataset.class === className) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Display subjects for the selected class
+            displaySubjects(className);
+        }
+
+        // Display subjects for the selected class
+        function displaySubjects(className) {
+            const subjects = classSubjects[className] || [];
+            
+            subjectsContainer.innerHTML = '';
+            
+            subjects.forEach(subject => {
+                const subjectCard = document.createElement('div');
+                subjectCard.className = 'subject-card';
+                subjectCard.dataset.subject = subject;
+                subjectCard.innerHTML = `
+                    <i class="${subjectIcons[subject]}"></i>
+                    <h3>${subjectNames[subject]}</h3>
+                    <p>Click to view resources</p>
+                `;
+                
+                subjectCard.addEventListener('click', () => selectSubject(subject));
+                subjectsContainer.appendChild(subjectCard);
+            });
+        }
+
+        // Handle subject selection
+        function selectSubject(subject) {
+            currentSubject = subject;
+            
+            // Highlight selected subject
+            document.querySelectorAll('.subject-card').forEach(card => {
+                if (card.dataset.subject === subject) {
+                    card.style.border = '2px solid var(--primary)';
+                } else {
+                    card.style.border = 'none';
+                }
+            });
+            
+            // Display resources for the selected subject
+            displayResources();
+        }
+
+        // Handle tab selection
+        function selectTab(tab) {
+            currentTab = tab;
+            
+            // Update UI
+            tabButtons.forEach(btn => {
+                if (btn.dataset.tab === tab) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Display resources for the selected tab
+            displayResources();
+        }
+
+        // Display resources based on current selection
+        function displayResources() {
+            if (!currentClass || !currentSubject) {
+                resourceContainer.innerHTML = `
+                    <div class="placeholder">
+                        <i class="fas fa-book-open"></i>
+                        <p>Select a class and subject to view resources</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const resources = resourcesData[currentClass]?.[currentSubject]?.[currentTab] || [];
+            
+            if (resources.length === 0) {
+                resourceContainer.innerHTML = `
+                    <div class="placeholder">
+                        <i class="fas fa-inbox"></i>
+                        <p>No resources available for this subject yet</p>
+                        <p>Resources will be available soon</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            resourceContainer.innerHTML = '';
+            
+            resources.forEach(resource => {
+                const resourceItem = document.createElement('div');
+                resourceItem.className = `resource-item ${currentTab}-resource`;
+                
+                if (currentTab === 'pdf') {
+                    resourceItem.innerHTML = `
+                        <i class="fas fa-file-pdf"></i>
+                        <div class="resource-info">
+                            <h4>${resource.title}</h4>
+                            <p>PDF Study Material</p>
+                        </div>
+                        <a href="${resource.url}" class="btn" download>Download</a>
+                    `;
+                } else {
+                    resourceItem.innerHTML = `
+                        <i class="fas fa-video"></i>
+                        <div class="resource-info">
+                            <h4>${resource.title}</h4>
+                            <p>Video Lesson</p>
+                        </div>
+                        <a href="${resource.url}" class="btn" target="_blank">Watch</a>
+                    `;
+                }
+                
+                resourceContainer.appendChild(resourceItem);
+            });
+        }
+
+        // Toggle teacher mode
+        function toggleTeacherMode() {
+            if (!teacherMode) {
+                const password = prompt('Enter teacher password:');
+                if (password === 'teach123') { // Simple password check for demo
+                    teacherMode = true;
+                    teacherSection.classList.remove('hidden');
+                    teacherToggle.textContent = 'Exit Teacher Mode';
+                }
+            } else {
+                teacherMode = false;
+                teacherSection.classList.add('hidden');
+                teacherToggle.textContent = 'Teacher Mode';
+            }
+        }
+
+        // Handle resource upload
+        function uploadNewResource() {
+            const teacherClass = document.getElementById('teacher-class').value;
+            const teacherSubject = document.getElementById('teacher-subject').value;
+            const resourceType = document.getElementById('resource-type').value;
+            const resourceTitle = document.getElementById('resource-title').value;
+            const resourceUrl = document.getElementById('resource-url').value;
+            
+            if (!resourceTitle || !resourceUrl) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Initialize resources data structure if needed
+            if (!resourcesData[teacherClass]) {
+                resourcesData[teacherClass] = {};
+            }
+            if (!resourcesData[teacherClass][teacherSubject]) {
+                resourcesData[teacherClass][teacherSubject] = {
+                    pdf: [],
+                    video: []
+                };
+            }
+            
+            // Add the new resource
+            resourcesData[teacherClass][teacherSubject][resourceType].push({
+                title: resourceTitle,
+                url: resourceUrl
+            });
+            
+            // Save to localStorage (in a real app, this would be sent to a server)
+            alert('Resource uploaded successfully!');
+            
+            // Clear the form
+            document.getElementById('resource-title').value = '';
+            document.getElementById('resource-url').value = '';
+            
+            // If the current view matches the uploaded resource, update the display
+            if (currentClass === teacherClass && currentSubject === teacherSubject && currentTab === resourceType) {
+                displayResources();
+            }
+        }
+
+        // Initialize the dashboard when the page loads
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

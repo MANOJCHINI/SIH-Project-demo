@@ -1,0 +1,138 @@
+/* starting.css */
+
+/* Import modern font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+}
+
+/* Container */
+.container {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Full-screen background image */
+.container > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    z-index: -1;
+    filter: brightness(0.95);
+}
+
+/* Govt logo */
+.govt-logo img {
+    height: 90px;
+    width: 90px;
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Header text */
+.header h1 {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+    color: rgb(226, 162, 43);
+    font-weight: 600;
+    animation: slideDown 1s ease;
+}
+
+.header h2 {
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: rgb(226, 113, 43);
+    margin-bottom: 40px;
+    animation: slideUp 1.2s ease;
+}
+/* Buttons */
+.continue-button {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 30px; /* Adjust this value to move buttons up/down */
+    animation: fadeIn 1.5s ease;
+}
+
+.continue-button button {
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #f5b700, #f28c28);
+    color: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+
+
+.continue-button button:hover {
+    background: linear-gradient(135deg, #e08e0b, #d16e1e);
+    transform: translateY(-3px) scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 2rem;
+    }
+    .header h2 {
+        font-size: 1rem;
+    }
+    .continue-button {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .continue-button button {
+        width: 200px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #317EFB;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}

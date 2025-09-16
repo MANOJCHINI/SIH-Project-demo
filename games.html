@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Quiz App</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+        }
+
+        body {
+            background-color: #f0f8ff;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            width: 100%;
+            max-width: 600px;
+            min-height: 500px;
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4a6fa5;
+            margin-bottom: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed #cce5ff;
+        }
+
+        .progress {
+            font-weight: bold;
+            color: #4a6fa5;
+        }
+
+        .score {
+            font-weight: bold;
+            background-color: #e0f0ff;
+            padding: 5px 10px;
+            border-radius: 15px;
+        }
+
+        .question-container {
+            margin-bottom: 20px;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .choice-btn {
+            background-color: #e7f3ff;
+            border: 2px solid #b8d4f0;
+            border-radius: 12px;
+            padding: 12px 15px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .choice-btn:hover:not(:disabled) {
+            background-color: #d4e7ff;
+            transform: translateY(-2px);
+        }
+
+        .choice-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        .choice-btn.correct {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        .choice-btn.incorrect {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        .feedback {
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .correct-feedback {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .incorrect-feedback {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .next-btn {
+            background-color: #4a6fa5;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: block;
+            margin-left: auto;
+            transition: background-color 0.2s;
+        }
+
+        .next-btn:hover:not(:disabled) {
+            background-color: #3a5a80;
+        }
+
+        .next-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .end-screen {
+            text-align: center;
+        }
+
+        .results {
+            margin-bottom: 25px;
+        }
+
+        .result-item {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .grade-message {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4a6fa5;
+            margin: 20px 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .action-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .retry-btn {
+            background-color: #4a6fa5;
+            color: white;
+        }
+
+        .retry-btn:hover {
+            background-color: #3a5a80;
+        }
+
+        .review-btn {
+            background-color: #f0ad4e;
+            color: white;
+        }
+
+        .review-btn:hover {
+            background-color: #ec971f;
+        }
+
+        .reset-btn {
+            background-color: #d9534f;
+            color: white;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+        }
+
+        .reset-btn:hover {
+            background-color: #c9302c;
+        }
+
+        .review-screen {
+            text-align: left;
+        }
+
+        .review-item {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ccc;
+        }
+
+        .user-answer {
+            margin-top: 5px;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .correct-answer {
+            margin-top: 5px;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: #d4edda;
+        }
+
+        .explanation {
+            margin-top: 10px;
+            font-style: italic;
+            color: #666;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 15px;
+                border-radius: 15px;
+            }
+            
+            .choice-btn {
+                padding: 10px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Student Quiz Challenge</h1>
+        <button class="reset-btn action-btn" id="reset-btn">Reset Quiz</button>
+        
+        <div id="quiz-container">
+            <!-- This will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // =============================================
+        // README: How to customize this quiz application
+        // =============================================
+        //
+        // 1. To change questions:
+        //    - Modify the 'questions' array below
+        //    - Each question should have:
+        //        - id: unique identifier
+        //        - text: the question itself
+        //        - choices: array of possible answers
+        //        - correctIndex: index of the correct answer (0-based)
+        //        - explanation: optional explanation shown during review
+        //
+        // 2. To change scoring:
+        //    - Modify the 'SCORE_CORRECT' and 'SCORE_INCORRECT' constants
+        //    - Set 'ALLOW_NEGATIVE_SCORE' to false if you want to clamp at 0
+        //
+        // 3. To customize messages:
+        //    - Modify the 'getGradeMessage' function for different feedback
+        //    - Update any text in the UI as needed
+        //
+        // 4. To change the number of questions:
+        //    - Add or remove items from the 'questions' array
+        //    - The app will automatically adjust
+        //
+        // =============================================
+
+        // Constants for scoring
+        const SCORE_CORRECT = 2;
+        const SCORE_INCORRECT = -1;
+        const ALLOW_NEGATIVE_SCORE = true;
+
+        // Quiz questions for Class 6-8 students
+        const questions = [
+            {
+                id: 1,
+                text: "What is the value of π (pi) approximately?",
+                choices: ["3.14", "2.71", "1.62", "3.50"],
+                correctIndex: 0,
+                explanation: "π (pi) is approximately 3.14, which is the ratio of a circle's circumference to its diameter."
+            },
+            {
+                id: 2,
+                text: "Which planet is known as the Red Planet?",
+                choices: ["Venus", "Mars", "Jupiter", "Saturn"],
+                correctIndex: 1,
+                explanation: "Mars is called the Red Planet because of its reddish appearance, which is due to iron oxide (rust) on its surface."
+            },
+            {
+                id: 3,
+                text: "What is the chemical symbol for gold?",
+                choices: ["Go", "Gd", "Au", "Ag"],
+                correctIndex: 2,
+                explanation: "The chemical symbol for gold is Au, which comes from the Latin word 'aurum' meaning gold."
+            },
+            {
+                id: 4,
+                text: "What is 7 × 8?",
+                choices: ["54", "56", "64", "72"],
+                correctIndex: 1,
+                explanation: "7 multiplied by 8 equals 56. This is a basic multiplication fact in mathematics."
+            },
+            {
+                id: 5,
+                text: "Which of these is NOT a prime number?",
+                choices: ["17", "23", "27", "31"],
+                correctIndex: 2,
+                explanation: "27 is not a prime number because it can be divided by 3 and 9 (3×9=27). Prime numbers have exactly two distinct factors: 1 and themselves."
+            },
+            {
+                id: 6,
+                text: "What is the largest organ in the human body?",
+                choices: ["Liver", "Heart", "Skin", "Lungs"],
+                correctIndex: 2,
+                explanation: "The skin is the largest organ in the human body, with an average adult's skin covering about 20 square feet."
+            },
+            {
+                id: 7,
+                text: "Which gas do plants absorb from the atmosphere?",
+                choices: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"],
+                correctIndex: 2,
+                explanation: "Plants absorb carbon dioxide (CO₂) from the atmosphere during photosynthesis to produce glucose and oxygen."
+            },
+            {
+                id: 8,
+                text: "What is the capital of Australia?",
+                choices: ["Sydney", "Melbourne", "Canberra", "Perth"],
+                correctIndex: 2,
+                explanation: "Canberra is the capital city of Australia. It was specially designed and built to be the capital in the early 20th century."
+            },
+            {
+                id: 9,
+                text: "Which fraction is equivalent to 0.75?",
+                choices: ["3/4", "2/3", "4/5", "1/2"],
+                correctIndex: 0,
+                explanation: "0.75 is equivalent to 3/4. You can convert decimals to fractions by placing the decimal value over the appropriate power of 10 (75/100) and simplifying."
+            },
+            {
+                id: 10,
+                text: "What is the main function of the roots of a plant?",
+                choices: ["Photosynthesis", "Reproduction", "Absorb water and nutrients", "Gas exchange"],
+                correctIndex: 2,
+                explanation: "The primary function of roots is to absorb water and nutrients from the soil, anchor the plant, and sometimes store food."
+            }
+        ];
+
+        // Quiz state
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let userAnswers = [];
+        let quizCompleted = false;
+
+        // DOM elements
+        const quizContainer = document.getElementById('quiz-container');
+        const resetBtn = document.getElementById('reset-btn');
+
+        // Initialize the quiz
+        function initQuiz() {
+            loadProgress();
+            renderQuiz();
+            setupEventListeners();
+        }
+
+        // Load progress from localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('quizProgress');
+            
+            if (savedProgress) {
+                const progress = JSON.parse(savedProgress);
+                currentQuestionIndex = progress.currentQuestionIndex;
+                score = progress.score;
+                userAnswers = progress.userAnswers;
+                quizCompleted = progress.quizCompleted;
+            }
+        }
+
+        // Save progress to localStorage
+        function saveProgress() {
+            const progress = {
+                currentQuestionIndex,
+                score,
+                userAnswers,
+                quizCompleted
+            };
+            
+            localStorage.setItem('quizProgress', JSON.stringify(progress));
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            resetBtn.addEventListener('click', resetQuiz);
+        }
+
+        // Render the quiz based on current state
+        function renderQuiz() {
+            if (quizCompleted) {
+                renderEndScreen();
+            } else if (currentQuestionIndex < questions.length) {
+                renderQuestion();
+            } else {
+                // This shouldn't normally happen, but just in case
+                quizCompleted = true;
+                saveProgress();
+                renderEndScreen();
+            }
+        }
+
+        // Render the current question
+        function renderQuestion() {
+            const question = questions[currentQuestionIndex];
+            const progress = currentQuestionIndex + 1;
+            const totalQuestions = questions.length;
+            
+            let displayScore = ALLOW_NEGATIVE_SCORE ? score : Math.max(0, score);
+            
+            quizContainer.innerHTML = `
+                <div class="header">
+                    <div class="progress">Q${progress} of ${totalQuestions}</div>
+                    <div class="score">Score: ${displayScore}</div>
+                </div>
+                
+                <div class="question-container">
+                    <div class="question-text">${question.text}</div>
+                    <div class="choices" id="choices-container">
+                        ${question.choices.map((choice, index) => `
+                            <button class="choice-btn" data-index="${index}">${choice}</button>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div id="feedback-container"></div>
+                <button class="next-btn" id="next-btn" disabled>Next Question</button>
+            `;
+            
+            // Add event listeners to choice buttons
+            const choiceButtons = document.querySelectorAll('.choice-btn');
+            choiceButtons.forEach(button => {
+                button.addEventListener('click', handleAnswerSelection);
+            });
+            
+            // Add event listener to next button
+            document.getElementById('next-btn').addEventListener('click', goToNextQuestion);
+        }
+
+        // Handle answer selection
+        function handleAnswerSelection(event) {
+            const selectedIndex = parseInt(event.target.dataset.index);
+            const question = questions[currentQuestionIndex];
+            const isCorrect = selectedIndex === question.correctIndex;
+            
+            // Disable all choice buttons
+            const choiceButtons = document.querySelectorAll('.choice-btn');
+            choiceButtons.forEach(button => {
+                button.disabled = true;
+            });
+            
+            // Mark correct and incorrect answers
+            choiceButtons[question.correctIndex].classList.add('correct');
+            if (!isCorrect) {
+                event.target.classList.add('incorrect');
+            }
+            
+            // Update score
+            if (isCorrect) {
+                score += SCORE_CORRECT;
+            } else {
+                score += SCORE_INCORRECT;
+                if (!ALLOW_NEGATIVE_SCORE && score < 0) score = 0;
+            }
+            
+            // Store user's answer
+            userAnswers[currentQuestionIndex] = {
+                questionId: question.id,
+                selectedIndex: selectedIndex,
+                isCorrect: isCorrect
+            };
+            
+            // Show feedback
+            const feedbackContainer = document.getElementById('feedback-container');
+            if (isCorrect) {
+                feedbackContainer.innerHTML = `
+                    <div class="feedback correct-feedback" aria-live="polite">
+                        <span style="font-size: 1.5em;">✓</span> Correct! ${question.explanation ? '<br>' + question.explanation : ''}
+                    </div>
+                `;
+            } else {
+                feedbackContainer.innerHTML = `
+                    <div class="feedback incorrect-feedback" aria-live="polite">
+                        <span style="font-size: 1.5em;">✗</span> Wrong! The correct answer is: ${question.choices[question.correctIndex]}
+                        ${question.explanation ? '<br>' + question.explanation : ''}
+                    </div>
+                `;
+            }
+            
+            // Enable next button
+            document.getElementById('next-btn').disabled = false;
+            
+            // Auto-advance after 1.5 seconds (optional)
+            // setTimeout(goToNextQuestion, 1500);
+            
+            // Save progress
+            saveProgress();
+        }
+
+        // Move to the next question
+        function goToNextQuestion() {
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex >= questions.length) {
+                quizCompleted = true;
+            }
+            
+            saveProgress();
+            renderQuiz();
+        }
+
+        // Render the end screen with results
+        function renderEndScreen() {
+            const correctCount = userAnswers.filter(answer => answer.isCorrect).length;
+            const incorrectCount = userAnswers.length - correctCount;
+            const percentage = Math.round((correctCount / questions.length) * 100);
+            let displayScore = ALLOW_NEGATIVE_SCORE ? score : Math.max(0, score);
+            
+            quizContainer.innerHTML = `
+                <div class="end-screen">
+                    <h2>Quiz Completed!</h2>
+                    
+                    <div class="results">
+                        <div class="result-item">Total Score: <strong>${displayScore}</strong></div>
+                        <div class="result-item">Correct Answers: <strong>${correctCount}/${questions.length}</strong></div>
+                        <div class="result-item">Incorrect Answers: <strong>${incorrectCount}</strong></div>
+                        <div class="result-item">Percentage: <strong>${percentage}%</strong></div>
+                    </div>
+                    
+                    <div class="grade-message">${getGradeMessage(percentage)}</div>
+                    
+                    <div class="action-buttons">
+                        <button class="action-btn retry-btn" id="retry-btn">Try Again</button>
+                        <button class="action-btn review-btn" id="review-btn">Review Answers</button>
+                    </div>
+                </div>
+            `;
+            
+            // Add event listeners to action buttons
+            document.getElementById('retry-btn').addEventListener('click', resetQuiz);
+            document.getElementById('review-btn').addEventListener('click', renderReviewScreen);
+        }
+
+        // Get a friendly grade message based on percentage
+        function getGradeMessage(percentage) {
+            if (percentage >= 90) return "Outstanding! 🌟";
+            if (percentage >= 80) return "Excellent Job! 🎉";
+            if (percentage >= 70) return "Good Work! 👍";
+            if (percentage >= 60) return "Not Bad! 😊";
+            if (percentage >= 50) return "You Passed! ✅";
+            return "Keep Practicing! 💪";
+        }
+
+        // Render the review screen showing all questions and answers
+        function renderReviewScreen() {
+            let reviewHTML = `
+                <div class="review-screen">
+                    <h2>Review Your Answers</h2>
+                    <div id="review-questions">
+            `;
+            
+            questions.forEach((question, index) => {
+                const userAnswer = userAnswers[index];
+                const isCorrect = userAnswer.isCorrect;
+                const userChoice = question.choices[userAnswer.selectedIndex];
+                const correctChoice = question.choices[question.correctIndex];
+                
+                reviewHTML += `
+                    <div class="review-item">
+                        <div class="question-text">${index + 1}. ${question.text}</div>
+                        <div class="user-answer ${isCorrect ? 'correct-answer' : 'incorrect-feedback'}">
+                            Your answer: ${userChoice} ${isCorrect ? '✓' : '✗'}
+                        </div>
+                        ${!isCorrect ? `
+                            <div class="correct-answer">
+                                Correct answer: ${correctChoice}
+                            </div>
+                        ` : ''}
+                        ${question.explanation ? `
+                            <div class="explanation">
+                                Explanation: ${question.explanation}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            
+            reviewHTML += `
+                    </div>
+                    <div class="action-buttons">
+                        <button class="action-btn retry-btn" id="back-to-results">Back to Results</button>
+                    </div>
+                </div>
+            `;
+            
+            quizContainer.innerHTML = reviewHTML;
+            
+            // Add event listener to back button
+            document.getElementById('back-to-results').addEventListener('click', renderEndScreen);
+        }
+
+        // Reset the quiz
+        function resetQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            userAnswers = [];
+            quizCompleted = false;
+            
+            localStorage.removeItem('quizProgress');
+            renderQuiz();
+        }
+
+        // Initialize the quiz when the page loads
+        document.addEventListener('DOMContentLoaded', initQuiz);
+    </script>
+</body>
+</html>
