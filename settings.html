@@ -1,65 +1,114 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ShiksaVid Dashboard</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="settings.css">
-
-  
+  <title>Settings - ShikshaVid</title>
+  <link rel="stylesheet" href="settings.css" />
+ 
 </head>
 <body>
   <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="logo">📘 ShiksaVid</div>
-    <a href="homePage.html" ><i>🏠</i> Home</a>
-    <a href="subjects.html" class="active"><i>📘</i> Subjects</a>
-    <a href="games.html"><i>🎮</i> Games</a>
-    <a href="progress.html"><i>📊</i> Progress</a>
-    <a href="settings.html"><i>⚙️</i> Settings</a>
-  </div>
+  <aside class="sidebar">
+    <h2 class="logo">ShikshaVid</h2>
+    <nav>
+      <a href="homePage.html"><i>🏠</i> Home</a>
+      <a href="subjects.html"><i>📘</i> Subjects</a>
+      <a href="games.html"><i>🎮</i> Games</a>
+      <a href="progress.html"><i>📊</i> Progress</a>
+      <a href="settings.html" class="active"><i>⚙️</i> Settings</a>
+    </nav>
+  </aside>
 
   <!-- Main Content -->
-  <div class="main">
-    <!-- Theme Toggle -->
-    <div class="topbar">
-      <button id="themeBtn">🌙 Dark </button>
-    </div>
+  <div class="container">
+    <div class="settings-container">
+      <h2>Settings</h2>
 
-    <!-- Cards -->
-    <div class="cards">
-      <div class="card">
-        <div class="card-icon">👤</div>
-        <h3>Account</h3>
-        <a href="#" class="go-link">Go</a>
+      <!-- Avatar Upload -->
+      <div class="setting-group">
+        <label class="setting-label">Avatar</label>
+        <div class="avatar-section">
+          <input type="file" id="avatar-upload" />
+          <p class="note">We only support .JPG, .JPEG, or .PNG files. 1MB max.</p>
+        </div>
       </div>
 
-      <div class="card">
-        <div class="card-icon">⬇️</div>
-        <h3>Downloads</h3>
-        <a href="#" class="go-link">Go</a>
+      <!-- Theme -->
+      <div class="setting-group">
+        <label class="setting-label">Theme</label>
+        <div class="theme-options">
+          <div class="theme-color" style="background-color: #000;"></div>
+          <div class="theme-color" style="background-color: #4e46e5;"></div>
+          <div class="theme-color" style="background-color: #6b21a8;"></div>
+          <div class="theme-color" style="background-color: #db2777;"></div>
+          <div class="theme-color" style="background-color: #f97316;"></div>
+          <div class="theme-color custom-color"></div>
+          <input type="text" placeholder="#FF5C23" class="color-input" />
+        </div>
       </div>
 
-      <div class="card">
-        <div class="card-icon">ℹ️</div>
-        <h3>About</h3>
-        <a href="#" class="go-link">Go</a>
+      <!-- Language & Region -->
+      <div class="setting-group">
+        <label class="setting-label">Language & Region</label>
+        <div class="row">
+          <select>
+            <option>English</option>
+            <option>Hindi</option>
+            <option>Telugu</option>
+            <option>Tamil</option>
+          </select>
+          <select>
+            <option>UTC+07:00 - Asia/Jakarta</option>
+            <option>UTC+05:30 - Asia/Kolkata</option>
+            <option>UTC+08:00 - Asia/Singapore</option>
+          </select>
+        </div>
       </div>
 
-      <div class="card">
-        <div class="card-icon">⭐</div>
-        <h3>Rate Us</h3>
-        <a href="#" class="go-link">Go</a>
+      <!-- Time Entry Restrictions -->
+      <div class="setting-group">
+        <label class="setting-label">Time Entry Restrictions</label>
+        <div class="toggle">
+          <label>
+            <input type="checkbox" />
+            Set required fields for new Time entries
+          </label>
+          <label>
+            <input type="checkbox" />
+            Lock Time entries
+          </label>
+        </div>
       </div>
 
-      <div class="card">
-        <div class="card-icon">🚪</div>
-        <h3>Logout</h3>
-        <a href="#" class="go-link">Go</a>
+      <!-- Time Entry Settings -->
+      <div class="setting-group">
+        <label class="setting-label">Time Entry Settings</label>
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="timeMode" />
+            Hide start and end times
+          </label>
+          <label>
+            <input type="radio" name="timeMode" checked />
+            Show start and end times
+          </label>
+        </div>
       </div>
+
+      <!-- Danger Zone -->
+      <div class="setting-group danger">
+        <label class="setting-label">Danger Zone</label>
+        <button class="logout-btn">Log out of all Sessions</button>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button class="cancel-btn">Cancel</button>
+        <button class="save-btn">Save Changes</button>
+      </div>
+
     </div>
   </div>
-  
 </body>
 </html>
