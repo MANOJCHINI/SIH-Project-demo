@@ -4,6 +4,9 @@ const FILES_TO_CACHE = [
   "./index.html",
   "./starting.css",
   "./manifest.json",
+  "./apple-touch-icon.png",
+  "./favicon-16x16.png",
+  "./favicon-32x32.png",
   "./icon-192.png",
   "./icon-512.png",
   "./signinStudent.html",
@@ -18,6 +21,7 @@ const FILES_TO_CACHE = [
   "./allstandards.html",
   "./progress.html",
   "./settings.html",
+  "./settings.css",
   "./games.html",
   "./subjects.html",
   "./subjects.css",
@@ -28,7 +32,8 @@ const FILES_TO_CACHE = [
   "./odisha12logo.jpg",
   "./sambalpur.jpeg",
   "./Shri-Jagannath-Temple.jpg",
-  "./starting_background.jpg"
+  "./starting_background.jpg",
+  "./site.webmanifest",
 ];
 
 // Install event
